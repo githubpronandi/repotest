@@ -1,16 +1,20 @@
 pipeline {
     agent any
 
+    environment {
+        GITHUB_CREDENTIALS = credentials('github-token') // Use the ID of your secret
+    }
+
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
+                git branch: 'main', credentialsId: GITHUB_CREDENTIALS, url: 'https://github.com/your-username/your-repo.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh './gradlew build' // Adjust based on your build tool
+                sh './gradlew build' // Adjust for your build tool
             }
         }
 
